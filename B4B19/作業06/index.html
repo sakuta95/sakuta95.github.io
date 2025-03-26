@@ -1,70 +1,91 @@
-<html lang="zh">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>B4B19作業05</title>
+    <title>B4B19作業06</title>
     <style>
-        h4 {
-            color: red;
-        }
-        p {
-            margin: 5px;
-        }
-        div {
-            color: blue;
-        }
-    </style>
+      h4 {
+          color: red;
+      }
+      label {
+          color: blue;
+      }
+      input {
+          color: brown;
+      }
+      div {
+          color: blue;
+          margin: 5px;
+      }
+   </style>
+
 </head>
 <body>
+<form id ="form01">
+    <label>姓名:</label>
+    <input type="text" name="name01" value="楊謹維"><br>
+    <label>收件住址:</label>
+    <input type="text" name="address01" value="台北市北投區大路三段287號12樓"><br>
+    <label>電話:</label>
+    <input type="tel" name="tel01" value="0978732223"><br>
+    <label>電子郵件:</label>
+    <input type="email" name="email01" value="yangjinweitw@gmail.com"><br>
+    <label>指定送貨日期:</label>
+    <input type="date" name="date01"><br>
+    <label>水果種類:(三選一)</label><br>
+    <input type="radio" name="fruit" id="fruit01" value="愛文芒果(1箱)">愛文芒果(1箱) 475元<br>
+    <input type="radio" name="fruit" id="fruit02" value="有機木瓜(6台斤)">有機木瓜(6台斤) 435元<br>
+    <input type="radio" name="fruit" id="fruit03" value="黑鑽石桑葚(5台斤)">黑鑽石桑葚(5台斤) 749元<br>
+</form>
+<br>
+<button onclick="shoppingInfo()"><h4>結帳</h4></button>
+<div id="demo"></div>
 <script>
-    var myName = "楊謹維";
-    var myAge = 23;
-    var myHeight = 181;
-    var myWeight = 72;
-    
-    document.write("<p>1.我是B4B19, " + myName + "</p>");
-    document.write("<h4>2.大家好！我最喜歡吃的水果是香蕉</h4>");
-    document.write("<div>以下為變數設定練習</div>");
-    document.write("<p>3.我是" + myName + "，今年" + myAge + "歲</p>");
-    document.write("<p>4.我的身高為" + myHeight + "公分，" + "我的體重為" + myWeight + "公斤</p>");
-    document.write("<p>5.所以我的BMI為" + (myWeight / Math.pow((myHeight / 100), 2)).toFixed(2) + "</p>");
+	function shoppingInfo() {
+	    const x =document.getElementById("form01");
+	    var item = " ";
+	    var price = 0;
+	    var text = "<h4>您的購物資訊如下:</h4>";
+	    var i;
+	    for (i = 0; i < 5; i++){
+	        switch (i) {
+	            case 0:
+	                item = "姓名: ";
+	                break;
+	            case 1:
+	                item = "收件地址: ";
+	                break;
+	            case 2:
+	                item = "電話: ";
+	                break;
+	            case 3:
+	                item = "電子郵件: ";
+	                break;
+	            case 4:
+	                item = "指定送貨日期: ";
+	                break;
+	        }
+	        text += item + x.elements[i].value + "<br>";
+	    }
+	    for (i =5; i<= 7; i++){
+	        if (x.elements[i].checked == true){
+	            switch (i) {
+	                case 5:
+	                price = 475;
+	                break;
+	                case 6:
+	                price = 435;
+	                break;
+	                case 7:
+	                price = 749;
+	                break;
+	            }
+	            text += "水果種類:" + x.elements[i].value + "<br>";
+	            text += "價格合計:" + price + "元<br>";
+	        }
+	    }
+	    document.getElementById("demo").innerHTML = text;
+	}
 
-    document.write("<div>以下for計次迴圈控制</div>");
-    
-    var sum = 0;
-    for (let i = 1; i <= 100; i++) {
-        sum += i;
-    }
-    document.write("<p>6.從1加到100的總和為" + sum + "</p>");
-
-    var count = 6;
-    function showSum(endNo) {
-        var sum = 0;
-        for (let i = 1; i <= endNo; i++) {
-            sum += i;
-        }
-        count += 1;
-        document.write("<p>" + count + ". 從1加到" + endNo + "的總和為 " + sum + "</p>");
-    }
-
-    showSum(10);
-    showSum(100);
-    showSum(1000);
-    showSum(10000);
-
-    document.write("<div>以下為九九乘法表</div>");
-
-    function nTimesNtable(n) {
-        for (let i = 1; i <= n; i++) {
-            let row = "<p>";
-            for (let j = 1; j <= n; j++) {
-                row += i + " X " + j + " = " + (i * j) + "&nbsp;&nbsp;";
-            }
-            row += "</p>";
-            document.write(row);
-        }
-    }
-
-    nTimesNtable(9);
 </script>
 </body>
 </html>
