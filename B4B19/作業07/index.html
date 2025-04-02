@@ -1,91 +1,73 @@
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>B4B19作業06</title>
+    <title>B4B19作業07</title>
     <style>
+		#form02{
+			color: red;
+		}
       h4 {
-          color: red;
-      }
-      label {
-          color: blue;
-      }
-      input {
           color: brown;
       }
-      div {
-          color: blue;
-          margin: 5px;
+      button {
+	padding: 10px 20px;
+	fron-size: 16px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
       }
-   </style>
+      .btn01{
+	color: blue;
+	background-color: yellow;
+      }
+      .btn02{
+	color: white;
+	background-color: blue;
+      }
+</style>
+
 
 </head>
 <body>
 <form id ="form01">
-    <label>姓名:</label>
-    <input type="text" name="name01" value="楊謹維"><br>
-    <label>收件住址:</label>
-    <input type="text" name="address01" value="台北市北投區大度路三段287號12樓"><br>
-    <label>電話:</label>
-    <input type="tel" name="tel01" value="0978732223"><br>
-    <label>電子郵件:</label>
-    <input type="email" name="email01" value="yangjinweitw@gmail.com"><br>
-    <label>指定送貨日期:</label>
-    <input type="date" name="date01"><br>
-    <label>水果種類:(三選一)</label><br>
-    <input type="radio" name="fruit" id="fruit01" value="火龍果(1箱)">火龍果(1箱) 990元<br>
-    <input type="radio" name="fruit" id="fruit02" value="南投頂級香蕉(25台斤)">南投頂級香蕉(25台斤) 2699元<br>
-    <input type="radio" name="fruit" id="fruit03" value="日本M號富士蜜蘋果(32入/箱)">日本M號富士蜜蘋果(32入/箱) 3550元<br>
+    <label>待輸入的資料個數為</label>
+    <input type="number" name="number01" placeholder="0"><br>
 </form>
-<br>
-<button onclick="shoppingInfo()"><h4>結帳</h4></button>
-<div id="demo"></div>
-<script>
-	function shoppingInfo() {
-	    const x =document.getElementById("form01");
-	    var item = " ";
-	    var price = 0;
-	    var text = "<h4>您的購物資訊如下:</h4>";
-	    var i;
-	    for (i = 0; i < 5; i++){
-	        switch (i) {
-	            case 0:
-	                item = "姓名: ";
-	                break;
-	            case 1:
-	                item = "收件地址: ";
-	                break;
-	            case 2:
-	                item = "電話: ";
-	                break;
-	            case 3:
-	                item = "電子郵件: ";
-	                break;
-	            case 4:
-	                item = "指定送貨日期: ";
-	                break;
-	        }
-	        text += item + x.elements[i].value + "<br>";
-	    }
-	    for (i =5; i<= 7; i++){
-	        if (x.elements[i].checked == true){
-	            switch (i) {
-	                case 5:
-	                price = 475;
-	                break;
-	                case 6:
-	                price = 435;
-	                break;
-	                case 7:
-	                price = 749;
-	                break;
-	            }
-	            text += "水果種類:" + x.elements[i].value + "<br>";
-	            text += "價格合計:" + price + "元<br>";
-	        }
-	    }
-	    document.getElementById("demo").innerHTML = text;
-	}
+<button class="btn01" onclick="inputNo()">產生輸入表格</button>
+<div id="demo01"></div>
+<div id="demo02"></div>
 
-</script>
+<script>
+	var no = 0;
+	function inputNo(){
+	    const x =document.getElementById("form01");
+	    var item = x.elements[0].value;
+	    no = item;
+	    var text01 = "<form id=\"form02\">";
+	    for (i=1;i<=item;i++){
+	    	text01 += i + ". ";
+	    	text01 += "<input type=\"text\">" + "<br>";
+	    }
+	    text01 += "</form>"+"<br>";
+	    text01 += "<button class=\"btn02\"onclick=\"stat()\">計算統計量</button>";
+	    document.getElementById("demo01").innerHTML = text01;
+	    }
+	function stat(){
+	    const y =document.getElementById("form02");
+		var sum = 0;
+		var sum01 = 0;
+		text02 = "";
+		for (i=0;i<no;i++){
+			sum += Number(y.elements[i].value);
+			sum01 += Math.pow(Number(y.elements[i].value),2);
+			text02 += "第" +(i+1) + "個數值為" + y.elements[i].value + "<br>";
+			}
+			text02 += "<h4>平均數="+sum/no+"<h4>";
+			text02 += "<h4>標準差=" + Math.sqrt((sum01-sum*sum/no)/(no-1)) + "<h4>";
+			document.getElementById("demo02").innerHTML = text02;
+			}
+		</script>
+</body>
+</html>
 </body>
 </html>
