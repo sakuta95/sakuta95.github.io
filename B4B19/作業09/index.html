@@ -1,0 +1,128 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>B4B19作業08</title>
+    <style>
+      h4 {
+          color: red;
+      }
+      label {
+          color: blue;
+      }
+      input {
+          color: brown;
+      }
+      div {
+          color: blue;
+          margin: 5px;
+      }
+      table {
+	      width:40%;
+	      border-color:dodgerblue;
+	      border-style:solid;
+	      border-collapse:collapse;
+      }
+      tr {
+	      text-align: left;
+	      border-color:dodgerblue;
+	      border-style:solid;
+      }
+      td{
+	      vertical-align:middle;
+	      border-color:dodgerblue;
+	      border-style:solid;
+      }
+      td:nth-child(1) {
+	      color: brown;
+      }
+       td:nth-child(2) {
+	      color: blue;
+      }
+   </style>
+
+</head>
+<body>
+<form id ="form01">
+    <label>姓名:</label>
+    <input type="text" name="name01" value="楊謹維"><br>
+    <label>收件住址:</label>
+    <input type="text" name="address01" value="台北市北投區大度路三段289號12樓"><br>
+    <label>電話:</label>
+    <input type="tel" name="tel01" value="0978732223"><br>
+    <label>電子郵件:</label>
+    <input type="email" name="email01" value="yangjinweitw@gmail.com"><br>
+    <label>指定送貨日期:</label>
+    <input type="date" name="date01"><br>
+    <label>水果種類:(四選一)</label><br>
+    <input type="radio" name="fruit" id="fruit01" value="阿美金鑽鳳梨(2-3顆)(3公斤UP)">阿美金鑽鳳梨(2-3顆)(3公斤UP) 1080元<br>
+    <input type="radio" name="fruit" id="fruit02" value="南投鄭大哥有機珍珠芭樂(4.8公斤)">南投鄭大哥有機珍珠芭樂(4.8公斤) 1980元<br>
+    <input type="radio" name="fruit" id="fruit03" value="拉拉山洪家水蜜桃 10粒裝(1.5公斤)">拉拉山洪家水蜜桃 10粒裝(1.5公斤) 1460元<br>
+    <input type="radio" name="fruit" id="fruit04" value="好農嚴選枋山愛文芒果(中果)(3公斤)">好農嚴選枋山愛文芒果(中果)(3公斤) 1375元<br>
+</form>
+<br>
+<button onclick="shoppingInfo()"><h4>結帳</h4></button>
+<div id="demo"></div>
+<script>
+	function shoppingInfo() {
+	    const x =document.getElementById("form01");
+	    var item = " ";
+	    var price = 0;
+	    var text = "<h4>您的購物資訊如下:</h4>";
+	    text +="<table>";
+	    var i;
+	    for (i = 0; i < 5; i++){
+		text +="<tr>";
+	        switch (i) {
+	            case 0:
+	                item = "姓名: ";
+	                break;
+	            case 1:
+	                item = "收件地址: ";
+	                break;
+	            case 2:
+	                item = "電話: ";
+	                break;
+	            case 3:
+	                item = "電子郵件: ";
+	                break;
+	            case 4:
+	                item = "指定送貨日期: ";
+	                break;
+	        }
+		text += "<td>" + item +"</td>";
+	        text += "<td>" + x.elements[i].value + "</td>";
+		text += "</tr>";
+	    }
+	    for (i =5; i<= 8; i++){
+	        if (x.elements[i].checked == true){
+	            switch (i) {
+	                case 5:
+	                price = 179;
+	                break;
+	                case 6:
+	                price = 528;
+	                break;
+	                case 7:
+	                price = 955;
+	                break;
+			case 8:
+		        price = 950;
+		        break;
+	            }
+			text +="<tr>";
+		        text +="<td>"+"水果種類:"+"</td>";
+			text +="<td>"+ x.elements[i].value+"</td>";
+			text +="</tr>";
+			text +="<tr>";
+			text +="<td>"+"價格合計:"+"</td>";
+			text +="<td>"+price+"元</td>";
+			text +="</tr>";
+	        }
+	    }
+		text +="</table>";
+	    document.getElementById("demo").innerHTML = text;
+	}
+
+</script>
+</body>
+</html>
