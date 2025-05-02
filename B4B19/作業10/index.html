@@ -1,20 +1,43 @@
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>B4B19作業09</title>
+    <title>B4B48作業10</title>
     <style>
-      h4 {
-          color: red;
-      }
-      div {
-          color: blue;
-          margin: 5px;
-      }
-   </style>
+        h4 {
+		    color: red;
+		}
+
+		div {
+		    color: red;
+		    margin: 5px;
+		}
+
+		table {
+		    width: 40%;
+		    border-color: dodgerblue;
+		    border-style:solid;
+		    border-collapse: collapse;
+		}
+		tr {
+		    text-align: left;
+		    border-color: green;
+		    border-style:solid;
+		}
+		td {
+		    vertical-align: middle;
+		    border-color: green;
+		    border-style:solid;
+		}
+		td:nth-child(1){
+		  color: brown;
+		}
+	</style>
 
 </head>
+
 <body>
-<form id ="form01">
+<form id="form01">
    姓名:<input type="text" name="name01" value="楊謹維"><br>
     收件住址:<input type="text" name="address01" value="臺北市北投區大度路3段299號"><br>
     電話:<input type="tel" name="tel01" value="0978732203"><br>
@@ -29,64 +52,87 @@
     <input type="checkbox" name="fruit" id="fruit04" value="好農嚴選枋山愛文芒果(中果)(3公斤)">好農嚴選枋山愛文芒果(中果)(3公斤) 1375元;
     購買數量:<input type="number" name="number04"><br>
 </form>
-<button onclick="shoppingInfo()"><h4>結帳</h4></button>
+<button id="submitBtn" onclick="shoppingInfo()"><h4>送出</h4></button>
 <div id="demo"></div>
 <script>
-	var text = "<h4>您的購物資訊如下:</h4>";
-	var fruit = function (fruitType,fruitPrice,no){
-		this.Type = fruitType;
-		this.Price = fruitPrice;
-		this.subTotal = function(no){
-			text += "水果種類:" + this.Type + "; 共" + no +"單位<br>";
-			text += "價格小計:" + this.Price *no + "元<br>";
-		};
-	};
-	var fruit01 = new fruit("阿美金鑽鳳梨(2-3顆)(3公斤UP)",1080, 0);
-	var fruit02 = new fruit("南投鄭大哥有機珍珠芭樂(4.8公斤)",1980, 0);
-	var fruit03 = new fruit("拉拉山洪家水蜜桃 10粒裝(1.5公斤)",1460, 0);
-	var fruit04 = new fruit("好農嚴選枋山愛文芒果(中果)(3公斤)",1375, 0)
+    var fruit = function (fruitType, fruitPrice, no){
+      this.Type = fruitType;
+      this.Price = fruitPrice;
+      this.No = no;
+      this.subTotal = function(no){
+        text += "<tr>";
+        text += "<td>水果種類</td> " + "<td>" + this.Type + "</td>" + "<td>共" + this.No + "單位</td>";
+        text += "<td>小計: " + this.Price * this.No + "元</td>";
+        text += "</tr>";
+      };
+    };
+    var fruit01 = new fruit("阿美金鑽鳳梨(2-3顆)(3公斤UP)",1080, 0);
+    var fruit02 = new fruit("南投鄭大哥有機珍珠芭樂(4.8公斤)",1980, 0);
+    var fruit03 = new fruit("拉拉山洪家水蜜桃 10粒裝(1.5公斤)",1460, 0);
+    var fruit04 = new fruit("好農嚴選枋山愛文芒果(中果)(3公斤)",1375, 0);
+    var isSubmitted = false; // 用來追蹤是否已經提交過資料
 
-function shoppingInfo() {
-	var x = document.getElementById("form01");
-	var item = " ";
-	var sumToPay = 0;
-	var i;
-	for (i = 0; i < 5; i++){
-		switch (i) {
-	            case 0: item = "姓名: ";break;
-	            case 1: item = "收件地址: ";break;
-	            case 2: item = "電話: ";break;
-	            case 3: item = "電子郵件: ";break;
-	            case 4: item = "指定送貨日期: ";break;
-	    }
-	    text += item + x.elements[i].value + "<br>";
+    function shoppingInfo() {
+        var x = document.getElementById("form01");
+        var item = "";
+        var sumToPay = 0;
+        var i;
+        text = "<h4>您的購物資訊如下:</h4>"; // 重製 text 變數
+        text += "<table>";
+        for (i = 0; i < 5; i++) {
+            switch (i) {
+                case 0: item = "姓名: "; break;
+                case 1: item = "收件地址: "; break;
+                case 2: item = "電話: "; break;
+                case 3: item = "電子郵件: "; break;
+                case 4: item = "指定送貨日期: "; break;
+            }
+            text += "<tr>";
+            text += "<td>" + item + "</td>" + "<td>" +  x.elements[i].value + "</td>";
+            text += "</tr>";
+        }
+
+        fruit01 = new fruit("阿美金鑽鳳梨(2-3顆)(3公斤UP)", 1080,parseInt(document.getElementById("fruit01Num").value));
+        fruit02 = new fruit("南投鄭大哥有機珍珠芭樂(4.8公斤)", 1980,parseInt(document.getElementById("fruit02Num").value));
+        fruit03 = new fruit("拉拉山洪家水蜜桃 10粒裝(1.5公斤)",1460,parseInt(document.getElementById("fruit03Num").value));
+        fruit04 = new fruit("好農嚴選枋山愛文芒果(中果)(3公斤)",1375,parseInt(document.getElementById("fruit04Num").value));
+
+    for (i=5; i <=11; i++) {
+        if (x.elements[i].checked === true) {
+            switch (i) {
+                case 5:
+                    fruit01.subTotal(fruit01.No);
+                    sumToPay += fruit01.Price * fruit01.No;
+                    break;
+                case 7:
+                    fruit02.subTotal(fruit02.No);
+                    sumToPay += fruit02.Price * fruit02.No;
+                    break;
+                case 9:
+                    fruit03.subTotal(fruit03.No);
+                    sumToPay += fruit03.Price * fruit03.No;
+                    break;
+                case 11:
+                    fruit04.subTotal(fruit04.No);
+                    sumToPay += fruit04.Price * fruit04.No;
+                    break;
+            }
+        }
     }
-for (i =5; i<= 11; i++){
-	 if (x.elements[i].checked === true){
-	      switch (i) {
-	          case 5: fruit01.no = x.elements[i+1].value;
-	                  sumToPay += fruit01.Price * fruit01.no;
-	                  fruit01.subTotal(fruit01.no);
-	                  break;
-	          case 7: fruit02.no = x.elements[i+1].value;
-	                  sumToPay += fruit02.Price * fruit02.no;
-	                  fruit02.subTotal(fruit02.no);
-	                  break;
-	          case 9: fruit03.no = x.elements[i+1].value;
-	                  sumToPay += fruit03.Price * fruit03.no;
-	                  fruit03.subTotal(fruit03.no);
-	                  break;
-		  case 11: fruit04.no = x.elements[i+1].value;
-	                  sumToPay += fruit04.Price * fruit04.no;
-	                  fruit04.subTotal(fruit04.no);
-	                  break;
-	      }
-	 }
-}
-	text += "價格合計:" + sumToPay +	"元<br>";
-	document.getElementById("demo").innerHTML = text;
-	}
+    text += "<tr>";
+    text += "<td>價格總計 </td>" + "<td>" + sumToPay + "元</td>";
+    text += "</tr>"
+    text += "</table>";
+    document.getElementById("demo").innerHTML = text;
 
+    if (!isSubmitted) { // 如果尚未提交過資料
+      document.getElementById("submitBtn").innerHTML = "<h4>確認修正</h4>";
+      isSubmitted = true; // 設定為已提交過資料
+    }
+}
+	
 </script>
+	
 </body>
+	
 </html>
